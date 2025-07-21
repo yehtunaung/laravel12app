@@ -86,7 +86,17 @@ return [
     |
     */
 
-    'prefix' => '',
+    /*
+    | Author : YHA
+    |--------------------------------------------------------------------------
+    | Jetstream Path
+    |-------------------------------------------------------------------------- 
+    | This value determines the path that Jetstream will use to register its
+    | routes. You may change this value to anything you wish, but it
+    | should correspond with the prefix that you
+    | have set in your Fortify configuration file.
+    */
+    'prefix' => env('ROUTE_PREFIX' , 'admin'),
 
     'domain' => null,
 
