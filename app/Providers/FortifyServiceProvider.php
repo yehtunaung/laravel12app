@@ -17,6 +17,7 @@ use Illuminate\Validation\ValidationException;
 use Laravel\Fortify\Actions\RedirectIfTwoFactorAuthenticatable;
 use Laravel\Fortify\Fortify;
 use Hash;
+use Illuminate\Support\Facades\View;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -78,5 +79,15 @@ class FortifyServiceProvider extends ServiceProvider
         RateLimiter::for('two-factor', function (Request $request) {
             return Limit::perMinute(5)->by($request->session()->get('login.id'));
         });
+
+        /**
+         * --- IGNORE ---
+         * Author : Ye Htun
+         * This section is used to prepend the admin views directory to the view finder.
+         * This allows the application to look for views in the admin directory first.
+         */
+        
+        View::getFinder()->prependLocation(resource_path('views/admin'));
+
     }
 }
