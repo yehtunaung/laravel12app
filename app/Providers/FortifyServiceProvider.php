@@ -6,13 +6,17 @@ use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\ResetUserPassword;
 use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
+use App\Models\User;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 use Laravel\Fortify\Actions\RedirectIfTwoFactorAuthenticatable;
 use Laravel\Fortify\Fortify;
+use Hash;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -36,10 +40,40 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::redirectUserForTwoFactorAuthenticationUsing(RedirectIfTwoFactorAuthenticatable::class);
 
         RateLimiter::for('login', function (Request $request) {
-            $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())).'|'.$request->ip());
-
+            $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())) . '|' . $request->ip());
             return Limit::perMinute(5)->by($throttleKey);
         });
+
+        /**
+         * --- IGNORE ---
+         * Author : Ye Htun
+         * This section is used to authenticate users.
+         * It checks the user's credentials and ensures they are not already logged in from another device.
+         * If the user is already logged in, it throws a validation exception.
+         * If the credentials are valid, it logs the user in and regenerates the session.
+         */
+
+        Fortify::authenticateUsing(function (Request $request) {
+            $user = User::where(Fortify::username(), $request->{Fortify::username()})->first();
+            if (! $user || ! Hash::check($request->password, $user->password)) {
+                return null;
+            }
+
+            //Check if session already exists and still active
+            $hasActiveSession = DB::table('sessions')
+                ->where('user_id', $user->id)
+                ->where('last_activity', '>', now()->subMinutes(config('session.lifetime'))->timestamp)
+                ->exists();
+
+            if ($hasActiveSession) {
+                throw ValidationException::withMessages([
+                    Fortify::username() => ['This user is already logged in on another device.'],
+                ]);
+            }
+            return $user;
+        });
+
+
 
         RateLimiter::for('two-factor', function (Request $request) {
             return Limit::perMinute(5)->by($request->session()->get('login.id'));
