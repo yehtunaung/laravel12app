@@ -1,6 +1,6 @@
 @php
     $breadcrumbs = [
-        'admin.dashboard' => [
+        'admin.dashboards' => [
             ['name' => 'Dashboard', 'route' => 'dashboard']
         ],
         'admin.dashboard' => [

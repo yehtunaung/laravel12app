@@ -5,7 +5,7 @@ import flowbite from 'flowbite/plugin';
 
 /** @type {import('tailwindcss').Config} */
 export default {
-    darkMode :"class",
+    darkMode: "class",
     content: [
         './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
         './vendor/laravel/jetstream/**/*.blade.php',
@@ -14,7 +14,7 @@ export default {
         './node_modules/flowbite/**/*.js'
     ],
 
- 
+
     theme: {
         extend: {
             colors: {
@@ -33,18 +33,19 @@ export default {
                     950: "#6C2E0E"
                 },
                 "secondary": {
-                    50: "#EFF6FA",
-                    100: "#DCEAF4",
-                    200: "#B9D4E9",
-                    300: "#87B5D9",
-                    400: "#4C92C7",
-                    500: "#234E70",
-                    600: "#214A69",
-                    700: "#1B3C55",
-                    800: "#17344A",
-                    900: "#0C1B27",
-                    950: "#0C1B27"
-                },
+                    50: "#EFF6FA",    // very light blue
+                    100: "#DCEAF4",    // light blue
+                    200: "#B9D4E9",    // soft blue
+                    300: "#87B5D9",    // muted blue
+                    400: "#3C8BC7",    // medium blue
+                    500: "#234E70",    // base blue
+                    600: "#0C61A2",    // strong blue
+                    700: "#1B3C55",    // deep blue
+                    800: "#17344A",    // darker blue
+                    900: "#0C1B27",    // very dark blue
+                    950: "#0C1B27"     // darkest blue (same as 900 for design consistency)
+                }
+
             },
             fontFamily: {
                 // sans: ['Figtree', ...defaultTheme.fontFamily.sans],
@@ -105,5 +106,5 @@ export default {
         },
     },
 
-    plugins: [flowbite,forms, typography],
+    plugins: [flowbite, forms, typography],
 };
