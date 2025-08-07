@@ -4,7 +4,7 @@
     <!-- User Management -->
     <li x-data="{ open: openItems.includes({{ $active }}) }" class="relative">
         <button @click="open = !open" @mouseenter="hoveredItem = 'UserManagement'" @mouseleave="hoveredItem = null"
-            class="flex items-center w-full py-2 text-sm font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group transition-all duration-200"
+            class="flex items-center w-full py-3 text-sm font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group transition-all duration-200"
             :class="sidebarOpen || hoveredWhenClosed ? 'px-3' : 'justify-center'">
             <span
                 class="text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">

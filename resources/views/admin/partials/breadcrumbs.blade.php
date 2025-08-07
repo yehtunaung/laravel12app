@@ -4,13 +4,11 @@
             ['name' => 'Dashboard', 'route' => 'dashboard']
         ],
         'admin.dashboard' => [
-            ['name' => 'Dashboard', 'route' => ''],
-            ['name' => 'Users', 'route' => 'dashboard']
+            ['name' => 'Dashboard', 'route' => 'admin.dashboard'],
         ],
-        'admin.users.create' => [
-            ['name' => 'Dashboard', 'route' => ''],
-            ['name' => 'Users', 'route' => 'admin.users.index'],
-            ['name' => 'Add User', 'route' => null]
+        'profile.show' => [
+            ['name' => 'Dashboard', 'route' => 'admin.dashboard'],
+            ['name' => 'Profile', 'route' => ''],
         ],
         'admin.products.index' => [
             ['name' => 'Dashboard', 'route' => ''],
@@ -41,7 +39,7 @@
                 @endif
                 
                 @if($breadcrumb['route'] && $index < count($currentBreadcrumbs) - 1)
-                    <a href="{{ route($breadcrumb['route']) }}" 
+                    <a href="{{ route($breadcrumb['route']) }}"  wire:navigate
                        class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white transition-colors duration-200">
                         @if($index === 0)
                             <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
